@@ -1,5 +1,3 @@
-import { GoogleGenAI } from '@google/genai';
-
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -102,19 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.classList.remove('bg-teal-600', 'hover:bg-teal-700', 'active:transform', 'active:scale-95');
 
     try {
-      const apiKey = process.env.API_KEY || '';
-      const ai = new GoogleGenAI({ apiKey });
-      const prompt = `당신은 '마음안식 스튜디오'의 따뜻하고 전문적인 심리상담사입니다. 다음 사연을 보낸 내담자에게 보낼 아주 짧고(2-3문장) 공감적인 답장을 작성해주세요. 내담자의 이름(${data.name})을 언급하며 다독여주세요. 사연: ${data.story}`;
-      
-      const aiPromise = ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt,
-        config: {
-          systemInstruction: '당신은 따뜻하고 전문적인 한국인 심리 상담사입니다. 내담자의 감정을 수용하고 격려하는 부드러운 말투를 사용하세요.',
-        }
-      });
-
-      const formspreePromise = fetch('https://formspree.io/f/maqdbglj', {
+      const formResult = await fetch('https://formspree.io/f/maqdbglj', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,18 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       });
 
-      const [aiResult, formResult] = await Promise.all([aiPromise, formspreePromise]);
-
       if (!formResult.ok) {
         throw new Error('Formspree submission failed');
       }
 
-      const aiResponseText = aiResult.text || '소중한 사연 감사합니다. 곧 연락드리겠습니다.';
-      
       // Show success view
       document.getElementById('success-email').textContent = data.email;
-      document.getElementById('ai-response-text').textContent = aiResponseText;
-      document.getElementById('ai-response-container').classList.remove('hidden');
       
       formView.classList.add('hidden');
       successView.classList.remove('hidden');
@@ -158,6 +138,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setBookingType('IN_PERSON');
     formView.classList.remove('hidden');
     successView.classList.add('hidden');
-    document.getElementById('ai-response-container').classList.add('hidden');
   });
 });

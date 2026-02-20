@@ -19,13 +19,6 @@
             display: block;
         }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0"
-  }
-}
-</script>
 <link rel="stylesheet" href="/index.css">
 </head>
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
@@ -271,10 +264,6 @@
             </div>
             <h2 class="text-3xl font-bold text-gray-900 mb-4">상담 신청이 완료되었습니다!</h2>
             <p class="text-gray-600 mb-8">입력해주신 메일(<span id="success-email"></span>)로 관리자가 확인 후 24시간 이내에 연락드리겠습니다.</p>
-            <div id="ai-response-container" class="hidden bg-teal-50 p-6 rounded-2xl text-left mb-8 border-l-4 border-teal-500 italic text-teal-900">
-              "<span id="ai-response-text"></span>"
-              <p class="mt-2 text-sm text-teal-700 font-bold">- 마음안식 상담진 드림</p>
-            </div>
             <button id="reset-booking-btn" class="text-teal-600 font-bold hover:underline">새로 신청하기</button>
           </div>
         </div>
